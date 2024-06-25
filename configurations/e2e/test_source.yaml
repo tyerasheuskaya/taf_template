@@ -1,0 +1,16 @@
+---
+# Configs for Test_Source /TEST_ENV  /TEST_LAYER
+TEST_ENV:
+    # data_for_load:
+    #     source_file: ../wb_seed_repo/Test_Data/E2E/test_data.csv
+    #     data_to_insert: ../wb_seed_repo/Test_Data/E2E/insert_values.csv
+    data_for_load:
+        schema:
+        table_name: Album1
+        data_to_insert: 1, 2, 3
+    TEST_LAYER:
+        api: /
+        schema:
+        table_name: Album
+        where_clause: 1=1
+        

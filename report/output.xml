@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.10.12 on win32)" generated="20240625 18:33:45.478" rpa="false" schemaversion="4">
+<suite id="s1" name="Regression Stub Test" source="C:\Users\Tatsiana_Yerasheuska\Documents\WB\3.Repos\taf_template\tests\regression\regression_stub_test.robot">
+<kw name="Connect to db" library="connectors" type="SETUP">
+<arg>sqlight</arg>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${CONNECTION}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240625 18:33:45.888" level="INFO">${CONNECTION} = </msg>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</kw>
+<kw name="Convert To Lower Case" library="String">
+<var>${db_name_lower}</var>
+<arg>${db_name}</arg>
+<doc>Converts string to lower case.</doc>
+<msg timestamp="20240625 18:33:45.888" level="INFO">${db_name_lower} = sqlight</msg>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</kw>
+<if>
+<branch type="IF" condition="'${db_name_lower}' == 'oracle 12'">
+<kw name="Connect to Oracle" library="connectors">
+<arg>${db_name}</arg>
+<arg>&amp;{ORACLE12}</arg>
+<status status="NOT RUN" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</kw>
+<status status="NOT RUN" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</branch>
+<branch type="ELSE IF" condition="'${db_name_lower}' == 'oracle 19'">
+<kw name="Connect to Oracle" library="connectors">
+<arg>${db_name}</arg>
+<arg>&amp;{ORACLE19}</arg>
+<status status="NOT RUN" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</kw>
+<status status="NOT RUN" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.888"/>
+</branch>
+<branch type="ELSE IF" condition="'${db_name_lower}' == 'sqlight'">
+<kw name="Connect to sqlight" library="connectors">
+<arg>${db_name}</arg>
+<arg>&amp;{SQLIGHT}</arg>
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<arg>dbapiModuleName=${DB_API_MODULE_NAME_SQLIGHT}</arg>
+<arg>db_connect_string=${params}[DATABASE]</arg>
+<arg>alias=${db_name}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using the map string `db_connect_string`
+(parsed as a list of named arguments).</doc>
+<msg timestamp="20240625 18:33:45.903" level="INFO">Executing : Connect To Database Using Custom Params : sqlite3.connect(db_api_2.connect("./Chinook.db"))</msg>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.903"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Connected to ${db_name} successfully!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20240625 18:33:45.903" endtime="20240625 18:33:45.903"/>
+</kw>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.903"/>
+</kw>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.903"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log To Console" library="BuiltIn">
+<arg>'Invalid or unsupported DB_NAME'</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" starttime="20240625 18:33:45.903" endtime="20240625 18:33:45.903"/>
+</kw>
+<status status="NOT RUN" starttime="20240625 18:33:45.903" endtime="20240625 18:33:45.903"/>
+</branch>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.903"/>
+</if>
+<status status="PASS" starttime="20240625 18:33:45.888" endtime="20240625 18:33:45.903"/>
+</kw>
+<test id="s1-t1" name="Run prepared queries" line="15">
+<for flavor="IN">
+<var>${table}</var>
+<var>${result}</var>
+<value>&amp;{data}</value>
+<iter>
+<var name="${table}">Album</var>
+<var name="${result}">347</var>
+<kw name="The query result for ${table} should be ${result}" library="regression" sourcename="The query result for ${table_name} should be ${expected}">
+<kw name="Get File" library="OperatingSystem">
+<var>${query}</var>
+<arg>${path_to_queries}/${table_name}.sql</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20240625 18:33:45.910" level="INFO" html="true">Getting file '&lt;a href="file://C:\Users\Tatsiana_Yerasheuska\Documents\WB\3.Repos\taf_template\resources\test_cases\regression_queries\Album.sql"&gt;C:\Users\Tatsiana_Yerasheuska\Documents\WB\3.Repos\taf_template\resources\test_cases\regression_queries\Album.sql&lt;/a&gt;'.</msg>
+<msg timestamp="20240625 18:33:45.911" level="INFO">${query} = SELECT  count(*) cnt
+FROM Album a JOIN Artist a2 ON a.ArtistId = a2.ArtistId </msg>
+<status status="PASS" starttime="20240625 18:33:45.909" endtime="20240625 18:33:45.911"/>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<var>${result}</var>
+<arg>${query}</arg>
+<arg>${CONNECTION}</arg>
+<doc>Runs a query with the ``selectStatement`` and returns the result as a list of rows.
+The type of row values depends on the database module -
+usually they are tuples or tuple-like objects.</doc>
+<msg timestamp="20240625 18:33:45.912" level="INFO">Executing : Query  |  SELECT  count(*) cnt
+FROM Album a JOIN Artist a2 ON a.ArtistId = a2.ArtistId  </msg>
+<msg timestamp="20240625 18:33:45.914" level="INFO">${result} = [(347,)]</msg>
+<status status="PASS" starttime="20240625 18:33:45.912" endtime="20240625 18:33:45.914"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${result}[0][0]</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<msg timestamp="20240625 18:33:45.916" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<msg timestamp="20240625 18:33:45.916" level="FAIL">347 (integer) != 347 (string)</msg>
+<status status="FAIL" starttime="20240625 18:33:45.914" endtime="20240625 18:33:45.916"/>
+</kw>
+<status status="FAIL" starttime="20240625 18:33:45.908" endtime="20240625 18:33:45.916"/>
+</kw>
+<status status="FAIL" starttime="20240625 18:33:45.908" endtime="20240625 18:33:45.916"/>
+</iter>
+<iter>
+<var name="${table}">Playlist</var>
+<var name="${result}">18</var>
+<kw name="The query result for ${table} should be ${result}" library="regression" sourcename="The query result for ${table_name} should be ${expected}">
+<kw name="Get File" library="OperatingSystem">
+<var>${query}</var>
+<arg>${path_to_queries}/${table_name}.sql</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20240625 18:33:45.916" level="INFO" html="true">Getting file '&lt;a href="file://C:\Users\Tatsiana_Yerasheuska\Documents\WB\3.Repos\taf_template\resources\test_cases\regression_queries\Playlist.sql"&gt;C:\Users\Tatsiana_Yerasheuska\Documents\WB\3.Repos\taf_template\resources\test_cases\regression_queries\Playlist.sql&lt;/a&gt;'.</msg>
+<msg timestamp="20240625 18:33:45.916" level="INFO">${query} = SELECT max(PlaylistId) FROM Playlist p </msg>
+<status status="PASS" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<var>${result}</var>
+<arg>${query}</arg>
+<arg>${CONNECTION}</arg>
+<doc>Runs a query with the ``selectStatement`` and returns the result as a list of rows.
+The type of row values depends on the database module -
+usually they are tuples or tuple-like objects.</doc>
+<msg timestamp="20240625 18:33:45.916" level="INFO">Executing : Query  |  SELECT max(PlaylistId) FROM Playlist p  </msg>
+<msg timestamp="20240625 18:33:45.916" level="INFO">${result} = [(18,)]</msg>
+<status status="PASS" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${result}[0][0]</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<msg timestamp="20240625 18:33:45.916" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<msg timestamp="20240625 18:33:45.916" level="FAIL">18 (integer) != 18 (string)</msg>
+<status status="FAIL" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<status status="FAIL" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<status status="FAIL" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</iter>
+<status status="FAIL" starttime="20240625 18:33:45.903" endtime="20240625 18:33:45.916"/>
+</for>
+<kw name="Disconnect from db" library="connectors" type="TEARDOWN">
+<arg>sqlight</arg>
+<kw name="Disconnect From Database" library="DatabaseLibrary">
+<arg>alias=${db_name}</arg>
+<doc>Disconnects from the database.</doc>
+<msg timestamp="20240625 18:33:45.916" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Disconnected from ${db_name} successfully!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<status status="PASS" starttime="20240625 18:33:45.916" endtime="20240625 18:33:45.916"/>
+</kw>
+<doc>Run tests by prepared queries</doc>
+<status status="FAIL" starttime="20240625 18:33:45.903" endtime="20240625 18:33:45.916">Several failures occurred:
+
+1) 347 (integer) != 347 (string)
+
+2) 18 (integer) != 18 (string)</status>
+</test>
+<doc>Stub test for Reconciliation</doc>
+<status status="FAIL" starttime="20240625 18:33:45.481" endtime="20240625 18:33:45.916"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Regression Stub Test">Regression Stub Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

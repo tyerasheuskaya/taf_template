@@ -1,0 +1,24 @@
+QA:
+    data_for_load:
+        source_file: ../wb_seed_repo/Test_Data/E2E/test_data.csv
+        data_to_insert: ../wb_seed_repo/Test_Data/E2E/insert_values.csv
+    MDM:
+        api: MDM_API
+        schema: MIS_MDM
+        table_name: TABLE_MDM
+        where_clause: 1=1
+    STAGING:
+        api: STAGING_API
+        schema: MIS_STAGING
+        table_name: TABLE_STAGING
+        where_clause: 1=1
+    ODS:
+        api: ODS_API
+        schema: MIS_ODS
+        table_name: TABLE_ODS
+        where_clause: 1=1
+    PRESENTATION:
+        api: WAREHOUSE_API
+        schema: MIS_WAREHOUSE
+        table_name: TABLE_WAREHOUSE
+        where_clause: 1=1

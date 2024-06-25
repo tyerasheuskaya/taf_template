@@ -1,0 +1,1 @@
+SELECT max(PlaylistId) FROM Playlist p 
