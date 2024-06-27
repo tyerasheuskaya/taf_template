@@ -27,14 +27,17 @@ Insert data into table
     ${schema}=   Set Variable If    '${schema}' == '${None}'    ${EMPTY}    ${schema}.
     ${query}=    Set Variable    INSERT INTO ${schema}${table} (${columns_expr}) VALUES(${values})
     Log To Console   ${query}
-    Query    ${query}    ${connection}
+    Execute Sql String    ${query}    ${connection}
 
 
 Get Columns
 # Get list of columns base on table name
     [Arguments]    ${connection}    ${schema}    ${table}
-    ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
+        ${schema}=    Set Variable If    '${schema}' == '${None}'    ${EMPTY}    ${schema}.
+
+    # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
     # ${query}=    Set Variable   Select Name from PRAGMA_TABLE_INFO('${table}')
+    ${query} =  Set Variable    Select Name from PRAGMA_TABLE_INFO('${table}')
     Log To Console  ${query}
     @{result}=    Query    ${query}    ${connection}
     RETURN  ${result} 
@@ -86,8 +89,9 @@ Get data from DB
 Delete data from DB
 # Delete data from DB by clause
     [Arguments]    ${connection}    ${schema}    ${table}    ${where_clause}
-    ${where_clause}=   Run Keyword If    '${where_clause}' == ''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
-    ${query}=    Set Variable    Delete FROM ${schema}.${table} WHERE ${where_clause};
+    ${where_clause}=   Run Keyword If    ${where_clause}==''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
+    ${schema}=    Set Variable If    '${schema}' == '${None}'    ${EMPTY}    ${schema}.
+    ${query}=    Set Variable    Delete FROM ${schema}${table} WHERE ${where_clause};
     Log    ${query}
-    Query    ${query}    ${connection}
+    Execute Sql String    ${query}    ${connection}
 

@@ -2,6 +2,18 @@
 Documentation        Test case 1
 Resource             ../../resources/test_cases/end_to_end.robot
 Variables            ../../resources/utils/get_variables.py    test_source    TEST_ENV
+Test Setup       On Test Start
+Test Teardown    On Test Finish
+
+
+*** Keywords ***
+On Test Start
+    Connect to db    sqlight
+    Delete data from DB    '${CONNECTION}'    ${data_for_load}[schema]    ${data_for_load}[table_name]  ''
+
+On Test Finish
+    Delete data from DB    '${CONNECTION}'    ${data_for_load}[schema]    ${data_for_load}[table_name]  ''
+    Disconnect from db  sqlight
 
 *** Test Cases ***
 # ETE for Source 1
@@ -32,13 +44,11 @@ Variables            ../../resources/utils/get_variables.py    test_source    TE
 Test Case 2
     [Documentation]   Test SQl light 
     [Tags]    LOCAL_TEST
-    Connect to db    sqlight
     Log To Console  Test run
     Used URL    https://example.com/
-    # # Insert data into Source    'source is files'  ${data_for_load}
-    # Insert data into Source    'source is db'    ${data_for_load}    
+     # Insert data into Source    'source is files'  ${data_for_load}
+    Insert data into Source    'source is db'    ${data_for_load}
     Load data to Layer          ${TEST_LAYER}
-    Disconnect from db  sqlight
 
 
 # Test Case 3
