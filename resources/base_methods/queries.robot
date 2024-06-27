@@ -45,6 +45,7 @@ Get Columns
 Concat columns into one string
 # Concatenate all columns from list to be used for hash function
     [Arguments]    ${columns}
+        ${columns}=  Evaluate   [t[0] for t in ${columns}]
         ${columns_as_string}=    Evaluate    ' , '.join(${columns})
     RETURN  ${columns_as_string}
 

@@ -15,7 +15,6 @@ ${MOCK_SERVER}  http://localhost:1080/
 Used URL
     [Arguments]  ${value}
     Set Global Variable  ${URL}  ${value}
-    Create Mock Session     ${MOCK_SERVER}
 
 Insert data into Source
     [Documentation]  Add data on source depend on flag: source is files, source is db
@@ -37,6 +36,7 @@ Load Data to Layer
     Should Not Be Equal  ${result}  ${0}   #Test type of return
 
 Mock Requests Example
+    Create Mock Session     ${MOCK_SERVER}
     Reset All Requests
     Create Default Mock Expectation    GET    /service_one     response_body={"key": "some value service 1"}
     Create Default Mock Expectation    GET    /service_two     response_body={"key": "some value service 2"}
