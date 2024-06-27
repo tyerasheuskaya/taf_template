@@ -1,9 +1,9 @@
 *** Settings ***
 Documentation        Test case 1
 Resource             ../../resources/test_cases/end_to_end.robot
-Variables            ../../resources/utils/get_variables.py    test_source    TEST_ENV
-Test Setup       On Test Start
-Test Teardown    On Test Finish
+Variables            ../../resources/utils/get_variables.py    oracle_source    QA
+Test Setup       Connect to db     oracle 19
+Test Teardown    Disconnect from db     oracle 19
 
 
 *** Keywords ***
@@ -49,8 +49,13 @@ Test Case 2
      # Insert data into Source    'source is files'  ${data_for_load}
     Insert data into Source    'source is db'    ${data_for_load}
     Load data to Layer          ${TEST_LAYER}
-#    Get Hash     ${data_for_load}
-
+    
 Test Case 3
     [Documentation]   Mocking Example
     Mock Requests Example
+
+
+Test case 4
+    [Documentation]  Flow for local Oracle 19 ${DB_API_MODULE_NAME_ORACLE}
+    Log To Console    Run for local oracle 19
+    Get data    ${LOCAL}

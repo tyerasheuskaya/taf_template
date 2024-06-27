@@ -2,8 +2,8 @@
 Documentation    Stub test for Reconciliation
 Resource         ../../resources/test_cases/regression.robot
 Resource         ../../configurations/connections/connections_qa.robot
-Suite Setup      Connect to db  sqlight
-Test Teardown    Disconnect from db  sqlight
+Suite Setup      Connect to db  oracle 19
+Test Teardown    Disconnect from db  oracle 19
 
 
 *** Variables ***

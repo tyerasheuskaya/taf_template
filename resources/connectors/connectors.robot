@@ -5,7 +5,7 @@ Library          String
 Resource         ../../configurations/connections/connections_qa.robot
 
 *** Variables ***
-${DB_API_MODULE_NAME_ORACLE}    cx_Oracle
+${DB_API_MODULE_NAME_ORACLE}    oracledb
 ${DB_API_MODULE_NAME_SQLIGHT}   sqlite3
 
 *** Keywords ***
