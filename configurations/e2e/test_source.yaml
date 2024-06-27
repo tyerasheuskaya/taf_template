@@ -8,6 +8,7 @@ TEST_ENV:
         schema:
         table_name: Album1
         data_to_insert: 1, 2, 3
+        keys: AlbumId
     TEST_LAYER:
         api: /
         schema:
