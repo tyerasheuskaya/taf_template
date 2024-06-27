@@ -17,6 +17,7 @@ dependencies:
     - allure-robotframework==2.13.5               # https://pypi.org/project/allure-robotframework/
     - robotframework-requests==0.9.7              # https://www.piwheels.org/project/robotframework-requests/
     - pandas==2.2.2                               # https://pypi.org/project/pandas/
+    - robotframework-mockserver==0.0.7            # https://pypi.org/project/robotframework-mockserver/
 
 
 

@@ -12,6 +12,6 @@ TEST_ENV:
     TEST_LAYER:
         api: /
         schema:
-        table_name: Album
+        table_name: Album1
         where_clause: 1=1
         

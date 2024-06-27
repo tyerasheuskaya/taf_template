@@ -4,10 +4,12 @@ Resource         ../../resources/connectors/connectors.robot
 Resource         ../../resources/base_methods/queries.robot
 Resource         ../../resources/base_methods/apis.robot
 Resource         ../../resources/base_methods/files.robot
+Library          MockServerLibrary
 
 *** Variables ***
 ${CONNECTION}
 ${URL}
+${MOCK_SERVER}  http://localhost:1080/
 
 *** Keywords ***
 Used URL
@@ -31,4 +33,13 @@ Load Data to Layer
     Log To Console  ${layer_params}
     ${api_resnonse}=  API GET Request  ${URL}  ${layer_params}[api]
     ${result}=  Get data from DB  ${CONNECTION}   ${layer_params}[schema]  ${layer_params}[table_name]  ${layer_params}[where_clause]
-    Should Not Be Equal  ${result}  0   #Test type of return
+    Should Not Be Equal  ${result}  ${0}   #Test type of return
+
+Mock Requests Example
+    Create Mock Session     ${MOCK_SERVER}
+    Reset All Requests
+    Create Default Mock Expectation    GET    /service_one     response_body={"key": "some value service 1"}
+    Create Default Mock Expectation    GET    /service_two     response_body={"key": "some value service 2"}
+    ${service_one_resnonse} =  GET  ${MOCK_SERVER}/service_one
+    ${service_two_resnonse} =  GET  ${MOCK_SERVER}/service_two
+    ${service_one_resnonse_body}    Set Variable     ${service_one_resnonse.json()}
