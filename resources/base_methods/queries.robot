@@ -34,12 +34,10 @@ Get Columns
 # Get list of columns base on table name
     [Arguments]    ${connection}    ${schema}    ${table}
         ${schema}=    Set Variable If    '${schema}' == '${None}'    ${EMPTY}    ${schema}.
+    # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
 
-    # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
-    # ${query}=    Set Variable   Select Name from PRAGMA_TABLE_INFO('${table}')
-    ${query} =  Set Variable    Select Name from PRAGMA_TABLE_INFO('${table}')
-    # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
     ${query}=    Set Variable   Select Name from PRAGMA_TABLE_INFO('${table}')
+
     Log To Console  ${query}
     @{result}=    Query    ${query}    ${connection}
     RETURN  ${result} 
@@ -47,7 +45,6 @@ Get Columns
 Concat columns into one string
 # Concatenate all columns from list to be used for hash function
     [Arguments]    ${columns}
-        ${columns}=  Evaluate   [t[0] for t in ${columns}]
         ${columns_as_string}=    Evaluate    ' , '.join(${columns})
     RETURN  ${columns_as_string}
 
@@ -59,7 +56,7 @@ Get Row Counts from Table
     @{result}=    Query    ${query}    ${connection}
     RETURN  ${result} 
 
-Get Hash from Table
+Get Hash
 # TODO! Get hash for each row base on table name
     [Arguments]    ${connection}    ${key}    ${schema}    ${table}
     ${columns} =  Get Columns    ${connection}    ${schema}    ${table}

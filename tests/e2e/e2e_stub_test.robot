@@ -49,9 +49,4 @@ Test Case 2
      # Insert data into Source    'source is files'  ${data_for_load}
     Insert data into Source    'source is db'    ${data_for_load}
     Load data to Layer          ${TEST_LAYER}
-    # # Insert data into Source    'source is files'  ${data_for_load}
-    # Insert data into Source    'source is db'    ${data_for_load}
-    Get hash     ${data_for_load}
-    # Load data to Layer          ${TEST_LAYER}
-    Disconnect from db  sqlight
-
+    Get Hash     ${data_for_load}
