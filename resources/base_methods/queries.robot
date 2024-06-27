@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation    Base queries for DBs
 Library          DatabaseLibrary
+Library          String
 
 *** Keywords ***
 Create table test_cases_result
@@ -29,7 +30,6 @@ Insert data into table
     Log To Console   ${query}
     Execute Sql String    ${query}    ${connection}
 
-
 Get Columns
 # Get list of columns base on table name
     [Arguments]    ${connection}    ${schema}    ${table}
@@ -38,6 +38,8 @@ Get Columns
     # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
     # ${query}=    Set Variable   Select Name from PRAGMA_TABLE_INFO('${table}')
     ${query} =  Set Variable    Select Name from PRAGMA_TABLE_INFO('${table}')
+    # ${query}=    Set Variable   SELECT lower(column_name) FROM all_tab_columns WHERE ${schema} and lower(table_name) = lower('${table}')
+    ${query}=    Set Variable   Select Name from PRAGMA_TABLE_INFO('${table}')
     Log To Console  ${query}
     @{result}=    Query    ${query}    ${connection}
     RETURN  ${result} 
@@ -46,7 +48,7 @@ Concat columns into one string
 # Concatenate all columns from list to be used for hash function
     [Arguments]    ${columns}
         ${columns}=  Evaluate   [t[0] for t in ${columns}]
-        ${columns_as_string}=    Evaluate    ', '.join(${columns})
+        ${columns_as_string}=    Evaluate    ' , '.join(${columns})
     RETURN  ${columns_as_string}
 
 Get Row Counts from Table
@@ -61,11 +63,14 @@ Get Hash from Table
 # TODO! Get hash for each row base on table name
     [Arguments]    ${connection}    ${key}    ${schema}    ${table}
     ${columns} =  Get Columns    ${connection}    ${schema}    ${table}
-    @{columns_expr}=    Concat columns into one string    ${columns}
-    ${query}=    Set Variable    SELECT ora_hash(${columns_expr}) AS row_hash FROM ${schema}.${table} order by ${key}
-    Log    ${query}
+    ${columns_expr}=    Concat columns into one string    ${columns}
+    ${columns_expr}=    Replace String Using Regexp    ${columns_expr}    ,    ||
+    ${schema}=    Set Variable If    '${schema}' == '${None}'    ${EMPTY}    ${schema}.
+    ${query}=    Set Variable    SELECT ora_hash(${columns_expr}) AS row_hash FROM ${schema}${table} order by ${key}
+    Log To Console  ${query}
     @{result}=    Query    ${query}    ${connection}
-    RETURN  ${result} 
+    Log To Console  ${result}
+    RETURN  ${result}
 
 Get objects statistic
 # Get counts base on table name

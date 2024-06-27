@@ -15,7 +15,7 @@ On Test Finish
     Delete data from DB    '${CONNECTION}'    ${data_for_load}[schema]    ${data_for_load}[table_name]  ''
     Disconnect from db  sqlight
 
-*** Test Cases ***
+*** Tasks ***
 # ETE for Source 1
 #     [Documentation]   End to End Test for Source "Source 1". Process "From Files update till DB Presentation level". 
 #     [Tags]    QA
@@ -49,8 +49,9 @@ Test Case 2
      # Insert data into Source    'source is files'  ${data_for_load}
     Insert data into Source    'source is db'    ${data_for_load}
     Load data to Layer          ${TEST_LAYER}
+    # # Insert data into Source    'source is files'  ${data_for_load}
+    # Insert data into Source    'source is db'    ${data_for_load}
+    Get hash     ${data_for_load}
+    # Load data to Layer          ${TEST_LAYER}
+    Disconnect from db  sqlight
 
-
-# Test Case 3
-#     ${a}=  Read Csv  ../wb_seed_repo/Test_Data/E2E/test_data.csv
-#     Log To Console  ${a}

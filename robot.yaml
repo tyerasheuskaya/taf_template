@@ -6,7 +6,7 @@ tasks:
   Run all tasks:
     # shell: python -m robot --report NONE --outputdir output --logtitle "Task log" tasks.robot
     # shell: -d {REPORT_DIRECTORY} -i {TAG} {PATH_TO_TEST(S)}
-      shell: python -m robot --outputdir report --logtitle "Task log" ./tests/regression/regression_stub_test.robot
+      shell: python -m robot --outputdir report --logtitle "Task log" ./tests/e2e/e2e_stub_test.robot
       
 
 environmentConfigs:
