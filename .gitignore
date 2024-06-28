@@ -16,3 +16,10 @@ testrun/*
 .~lock*
 *.pkl
 report/*
+output.xml
+log.html
+report.html
+interactive_console_output.xml
+interactive_console_output.xml
+report/output.xml
+report/report.html
