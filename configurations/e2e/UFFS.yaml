@@ -1,0 +1,32 @@
+QA:
+    Source:
+        type: db
+        info_for_load:
+            schema: dbo
+            table_name: LT1
+            data_to_insert: 12, 'Helen Grin', '1992-01-01'
+    MDM:
+        api: /service_one
+        schema: dbo
+        table_name: LT1
+        where_clause: 1=1
+        keys: ID
+    ODS:
+        api: /service_one
+        schema: TEST
+        table_name: LT1
+        where_clause: 1=1
+        keys: ID
+UAT:
+    Source:
+        type: db2
+        info_for_load:
+            schema: dbo1
+            table_name: LT11
+            data_to_insert: 121, 'Helen Grin', '1992-01-01'
+    MDM:
+        api: /service_one
+        schema: dbo
+        table_name: LT1
+        where_clause: 1=1
+        keys: ID

@@ -43,3 +43,8 @@ Mock Requests Example
     ${service_one_resnonse} =  GET  ${MOCK_SERVER}/service_one
     ${service_two_resnonse} =  GET  ${MOCK_SERVER}/service_two
     ${service_one_resnonse_body}    Set Variable     ${service_one_resnonse.json()}
+
+Get data
+    [Arguments]    ${layer_params}
+    ${result}=  Get Row Counts   ${CONNECTION}  ${layer_params}[schema]  ${layer_params}[table_name]
+    Log To Console    ${result}
