@@ -43,7 +43,7 @@ Concat columns into one string
         ${columns_as_string}=    Evaluate    ' , '.join(${columns})
     RETURN  ${columns_as_string}
 
-Get Row Counts from Table
+Get Row Counts
 # Get counts base on table name
     [Arguments]    ${connection}    ${schema}    ${table}
     ${query}=    Set Variable    SELECT COUNT(*) FROM ${schema}.${table}

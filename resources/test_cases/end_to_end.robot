@@ -46,5 +46,5 @@ Mock Requests Example
 
 Get data
     [Arguments]    ${layer_params}
-    ${result}=  Get Hash   ${CONNECTION}   ${layer_params}[keys]  ${layer_params}[schema]  ${layer_params}[table_name]
+    ${result}=  Get Row Counts   ${CONNECTION}  ${layer_params}[schema]  ${layer_params}[table_name]
     Log To Console    ${result}

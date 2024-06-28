@@ -10,7 +10,6 @@ tasks:
       
 
 environmentConfigs:
-  - environment_windows_amd64_freeze.yaml
   - conda.yaml
 
 artifactsDir: output  
