@@ -34,3 +34,11 @@ Test case 3
     Get data    ${ODS}
     Disconnect from db    ORACLE19
 
+
+Test 4
+    [Documentation]  Load to source 
+    [Tags]  WIP
+    Log To Console    ${Source}
+    Connect to db    MSSQL_UFFS
+    Load data to Source  ${Source}
+    Disconnect from db  MSSQL_UFFS

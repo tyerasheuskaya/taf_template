@@ -1,10 +1,12 @@
 QA:
     Source:
-        type: db
-        info_for_load:
+        type: 
+        - db
+        db:
             schema: dbo
-            table_name: LT1
-            data_to_insert: 12, 'Helen Grin', '1992-01-01'
+            table_name: 
+            - LT1
+            # data_to_insert: 12, 'Helen Grin', '1992-01-01'
     MDM:
         api: /service_one
         schema: dbo

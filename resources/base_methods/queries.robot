@@ -18,7 +18,7 @@ Create table test_cases_result
     Log    ${query}
     Query    ${query}    ${connection} 
 
-Insert data into table
+Generate insert query
 # Insert data into table
     [Arguments]    ${connection}    ${schema}    ${table}    ${values}
     ${columns} =  Get Columns    ${connection}    ${schema}    ${table}
@@ -26,7 +26,7 @@ Insert data into table
     ${columns_expr}=    Concat columns into one string    ${columns}
     ${query}=    Set Variable    INSERT INTO ${schema}.${table} (${columns_expr}) VALUES(${values})
     Log To Console   ${query}
-    Execute Sql String    ${query}    ${connection}
+    # Execute Sql String    ${query}    ${connection}
 
 Get Columns
 # Get list of columns base on table name

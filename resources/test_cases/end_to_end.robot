@@ -16,16 +16,49 @@ Used URL
     [Arguments]  ${value}
     Set Global Variable  ${URL}  ${value}
 
-Insert data into Source
-    [Documentation]  Add data on source depend on flag: source is files, source is db
-    [Arguments]   ${flag}   ${data_for_load}
-    IF  ${flag} == 'source is files'   
-        Add data to file    ${data_for_load}[source_file]   ${data_for_load}[data_to_insert]
-    ELSE IF  ${flag} == 'source is db'
-        Insert data into table  ${CONNECTION}   ${data_for_load}[schema]  ${data_for_load}[table_name]  ${data_for_load}[data_to_insert]
-    ELSE
-        Log To Console  Unknown type of source
+# Insert data into Source
+#     [Documentation]  Add data on source depend on flag: source is files, source is db
+#     [Arguments]   ${flag}   ${data_for_load}
+#     IF  ${flag} == 'source is files'   
+#         Add data to file    ${data_for_load}[source_file]   ${data_for_load}[data_to_insert]
+#     ELSE IF  ${flag} == 'source is db'
+#         Insert data into table  ${CONNECTION}   ${data_for_load}[schema]  ${data_for_load}[table_name]  ${data_for_load}[data_to_insert]
+#     ELSE
+#         Log To Console  Unknown type of source
+#     END
+
+Load data to Source
+    [Documentation]  Add data on source depend on source type lag: db, csv
+    [Arguments]  ${source_info}
+    @{source_types}=  Set Variable  ${source_info}[type]
+    # Log To Console    ${source_types}
+    FOR    ${source_type}    IN    @{source_types}
+        # Log to console   ${source_type}
+        IF    '${source_type}' == 'db'
+            FOR    ${table_name}    IN   @{source_info}[${source_type}][table_name]
+                # Log To Console  ${table_name}
+                ${data}=    Get data from CSV  ./test_data/e2e/uffs/${source_type}/${table_name}.csv
+                    Log To Console  Found columns: 
+                    # ${values_joined}=  Convert To String  ${data.columns}  ,  
+                    ${columns_joined}=    Catenate    SEPARATOR=,    @{data.columns}
+                    Log To Console   ${columns_joined}  
+                # Log To Console  ${data}[0]
+                    # FOR  ${row}  IN  @{data}
+                    #     Log To Console  ${row}
+                    # END        
+            END
+        ELSE
+            Log To Console    ELSE
+        END
     END
+    # IF   '${source_info}[type]' == 'csv'   
+    #     Log To Console    "LOGIC TO BE IMPLEMENTTED"
+    # ELSE IF  '${source_type}' == 'db'
+    #     Get CSV Headers    ./test_data/e2e/uffs/${source_type}/${table_name}.csv
+    #     # Insert data into table  ${CONNECTION}   ${schema}  ${source_info}[load_data][table_name]  ${source_info}[load_data][data_to_insert]
+    # # ELSE
+    # #     Log To Console  Unknown type of source: ${source_info}[type] 
+    # END
 
 Load Data to Layer
     [Documentation]  Loade data to layer

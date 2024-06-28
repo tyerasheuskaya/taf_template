@@ -1,13 +1,12 @@
 *** Settings ***
 Documentation    Stub test for Reconciliation
 Resource         ../../resources/test_cases/regression.robot
-Resource         ../../configurations/connections/connections_qa.robot
-Suite Setup      Connect to db  oracle 19
-Test Teardown    Disconnect from db  oracle 19
+Suite Setup      Connect to db  ORACLE19
+Test Teardown    Disconnect from db  ORACLE19
 
 
 *** Variables ***
-&{data}    Album=${347}   Playlist=${18}
+&{data}    LT1=${10}
 
 *** Test Cases ***
 
