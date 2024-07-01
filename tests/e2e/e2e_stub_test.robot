@@ -25,11 +25,9 @@ Test Case 2
 
 Test case 3
     [Documentation]  Check that connections work
-    Log To Console    Run for local mssql
-    Connect to db    MSSQL_UFFS
+    Connect to db    UFFS
     Get data    ${MDM}
-    Disconnect from db  MSSQL_UFFS
-    Log To Console    Run for local oracle 19
+    Disconnect from db  UFFS
     Connect to db    ORACLE19
     Get data    ${ODS}
     Disconnect from db    ORACLE19
@@ -38,7 +36,6 @@ Test case 3
 Test 4
     [Documentation]  Load to source 
     [Tags]  WIP
-    Log To Console    ${Source}
-    Connect to db    MSSQL_UFFS
+    Connect to db    UFFS
     Load data to Source  ${Source}
-    Disconnect from db  MSSQL_UFFS
+    Disconnect from db  UFFS

@@ -2,15 +2,20 @@ QA:
     Source:
         type: 
         - db
+        - csv
         db:
             schema: dbo
             table_name: 
-            - LT1
-            # data_to_insert: 12, 'Helen Grin', '1992-01-01'
+            - local_table_1
+            - local_table_2
+        csv:
+            csv_test_source:
+                source_file_path: ./test_data/e2e/uffs/csv/test_data.csv
+                data_to_insert_path: ./test_data/e2e/uffs/csv/insert_values.csv
     MDM:
         api: /service_one
         schema: dbo
-        table_name: LT1
+        table_name: local_table_1
         where_clause: 1=1
         keys: ID
     ODS:

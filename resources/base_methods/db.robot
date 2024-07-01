@@ -18,15 +18,11 @@ Create table test_cases_result
     Log    ${query}
     Query    ${query}    ${connection} 
 
-Generate insert query
-# Insert data into table
-    [Arguments]    ${connection}    ${schema}    ${table}    ${values}
-    ${columns} =  Get Columns    ${connection}    ${schema}    ${table}
-    Log To Console  ${columns}
-    ${columns_expr}=    Concat columns into one string    ${columns}
-    ${query}=    Set Variable    INSERT INTO ${schema}.${table} (${columns_expr}) VALUES(${values})
+Insert data
+    [Arguments]    ${connection}    ${schema}    ${table}  ${columns}  ${values}
+    ${query}=    Set Variable    INSERT INTO ${schema}.${table} (${columns}) VALUES(${values})
     Log To Console   ${query}
-    # Execute Sql String    ${query}    ${connection}
+    Execute Sql String    ${query}    ${connection}
 
 Get Columns
 # Get list of columns base on table name
@@ -81,11 +77,10 @@ Get data from DB
     Log To Console    ${result}[0][0]
     RETURN  ${result}[0][0]
 
-Delete data from DB
+Delete data from table
 # Delete data from DB by clause
     [Arguments]    ${connection}    ${schema}    ${table}    ${where_clause}
-    ${where_clause}=   Run Keyword If    ${where_clause}==''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
+    ${where_clause}=   Run Keyword If    '${where_clause}' == ''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
     ${query}=    Set Variable    Delete FROM ${schema}.${table} WHERE ${where_clause};
-    Log    ${query}
+    Log To Console   ${query}
     Execute Sql String    ${query}    ${connection}
-
