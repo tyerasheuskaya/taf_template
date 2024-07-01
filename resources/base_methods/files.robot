@@ -1,20 +1,18 @@
 *** Settings ***
 Documentation    Base methods for files
 Library    OperatingSystem
-Library    pandas
 Library    Collections
-Library    String
+Library    RPA.Tables
 
 *** Keywords ***
+Get data from CSV 
+    [Arguments]     ${file} 
+    # ${data}=  Get File  ${file}
+    ${data}  Read table from CSV  ${file}   header=True
+    RETURN  ${data}
+
 Add data to file
 # Write data to file
-    [Arguments]    ${filename}    ${data_to_be_added}
+    [Arguments]    ${file}    ${data_to_be_added}
     ${add}=  Get File  ${data_to_be_added}
-    Append To File    ${filename}    ${add}
-    
-
-Load data from file Into DataFrame
-# Get data from file and load to data frame
-    [Arguments]  ${filename}
-    ${data}=  Evaluate  pandas.read_csv(r'${filename}')  pandas
-    RETURN  ${data}
+    Append To File    ${file}    ${add}

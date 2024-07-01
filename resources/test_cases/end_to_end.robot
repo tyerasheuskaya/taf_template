@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation    End to End test case started from file till Presentation layer
 Resource         ../../resources/connectors/connectors.robot
-Resource         ../../resources/base_methods/queries.robot
+Resource         ../../resources/base_methods/db.robot
 Resource         ../../resources/base_methods/apis.robot
 Resource         ../../resources/base_methods/files.robot
 Library          MockServerLibrary
@@ -15,16 +15,35 @@ ${MOCK_SERVER}  http://localhost:1080/
 Used URL
     [Arguments]  ${value}
     Set Global Variable  ${URL}  ${value}
-
-Insert data into Source
-    [Documentation]  Add data on source depend on flag: source is files, source is db
-    [Arguments]   ${flag}   ${data_for_load}
-    IF  ${flag} == 'source is files'   
-        Add data to file    ${data_for_load}[source_file]   ${data_for_load}[data_to_insert]
-    ELSE IF  ${flag} == 'source is db'
-        Insert data into table  ${CONNECTION}   ${data_for_load}[schema]  ${data_for_load}[table_name]  ${data_for_load}[data_to_insert]
-    ELSE
-        Log To Console  Unknown type of source
+Load data to Source
+    [Documentation]  Add data on source depend on source type lag: db, csv
+    [Arguments]  ${source_info}
+    @{source_types}=  Set Variable  ${source_info}[type]
+    # Define a type of the source
+    FOR    ${source_type}    IN    @{source_types}
+        IF    '${source_type}' == 'db'
+            ${schema_name}=   Set Variable  ${source_info}[${source_type}][schema]
+            FOR    ${table_name}    IN   @{source_info}[${source_type}][table_name]
+                # Read data from csv file
+                ${data}=    Get data from CSV  ./test_data/e2e/uffs/${source_type}/${table_name}.csv
+                    # Collect headers and join them in one row 
+                    ${headers}=    Catenate    SEPARATOR=,    @{data.columns}
+                    ${counts}=  Get Length  ${data}
+                    # Take each row and generate inserts
+                    FOR  ${i}  IN RANGE  0  ${counts}
+                        ${values}=   Catenate  SEPARATOR=','    @{data}[${i}]
+                        # Log To Console   '${values}'
+                        Insert data  ${CONNECTION}  ${schema_name}  ${table_name}  ${headers}  '${values}'
+                    END                    
+            END
+        ELSE IF  '${source_type}' == 'csv'
+            ${csv_sources}=  Set variable  ${source_info}[${source_type}]
+            FOR    ${key}    ${value}    IN    &{csv_sources}
+                Add data to file    ${value}[source_file_path]   ${value}[data_to_insert_path]
+            END
+        ELSE
+            Log To Console    Source ${source_type} is not defined
+        END
     END
 
 Load Data to Layer
@@ -47,4 +66,3 @@ Mock Requests Example
 Get data
     [Arguments]    ${layer_params}
     ${result}=  Get Row Counts   ${CONNECTION}  ${layer_params}[schema]  ${layer_params}[table_name]
-    Log To Console    ${result}
