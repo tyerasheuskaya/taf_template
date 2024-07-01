@@ -5,7 +5,7 @@ Library          String
 Library          OperatingSystem
 
 *** Variables ***
-${connections}                 ./configurations/connections/connections_qa.cfg
+${connections}      ./configurations/connections/connections_qa.cfg
 
 *** Keywords ***
 Connect to db
