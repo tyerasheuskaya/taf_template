@@ -1,2 +1,0 @@
-robot --listener allure_robotframework -d .\report\ .\tests\*
-pip install --upgrade -r requirements.txt

@@ -1,16 +1,14 @@
 *** Settings ***
 Documentation    Methods for connection to Databases
 Library          DatabaseLibrary
-Library          String
-Library          OperatingSystem
 
 *** Variables ***
-${connections}      ./configurations/connections/connections_qa.cfg
+${connections}      ./config/connections/${ENV}.cfg
 
 *** Keywords ***
 Connect to db
     [Arguments]    ${db_name}
-    # Set Global Variable  ${CONNECTION}
+    #  dbDriver=ODBC Driver 17 for SQL Server if {SQL Server} not working
     Connect To Database  dbConfigFile=${connections}  alias=${db_name}
     Log To Console  ${\n}Connected to ${db_name} successfully!
 
