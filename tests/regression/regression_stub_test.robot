@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation    Stub test for Reconciliation
-Resource         ../../resources/test_cases/regression.robot
+Resource         ../../resources/db/connectors/connectors.resource
 Suite Setup      Connect to db  ORACLE19
 Test Teardown    Disconnect from db  ORACLE19
 
