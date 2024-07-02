@@ -42,4 +42,5 @@ Test 4
     ${source_name}  Set Variable    UFFS
     Connect to db    ${source_name}
     Load data to Source     ${source_name}
+    Delete data from tables     UFFS
     Disconnect from db      ${source_name}
