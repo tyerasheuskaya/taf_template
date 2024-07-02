@@ -1,11 +1,7 @@
 *** Settings ***
 Documentation        Test case 1
 Resource             ../../resources/test_cases/end_to_end.robot
-Variables            ../../resources/utils/get_variables.py    ${SOURCE_NAME}    ${ENV} 
-
-*** Variables ***
-${SOURCE_NAME}    UFFS
-${ENV}        QA
+Variables            ../../configurations/connestions/${ENV}_UFFS.yaml
 
 
 *** Tasks ***
@@ -36,6 +32,6 @@ Test case 3
 Test 4
     [Documentation]  Load to source 
     [Tags]  WIP
-    Connect to db    UFFS
+#    Connect to db    UFFS
     Load data to Source  ${Source}
     Disconnect from db  UFFS
