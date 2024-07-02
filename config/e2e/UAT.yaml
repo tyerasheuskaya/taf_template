@@ -1,4 +1,4 @@
-Source:
+UFFS:
   type: db2
   info_for_load:
     schema: dbo1
