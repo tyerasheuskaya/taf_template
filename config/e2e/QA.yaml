@@ -12,13 +12,23 @@ UFFS:
       source_file_path: ./test_data/e2e/uffs/csv/test_data.csv
       data_to_insert_path: ./test_data/e2e/uffs/csv/insert_values.csv
   MDM:
-    api: /service_one
+    host: http://localhost:1080
+    path: /service_one
     schema: dbo
     table_name: local_table_1
     where_clause: 1=1
     keys: ID
   ODS:
-    api: /service_one
+    host: http://localhost:1080
+    path: /service_two
+    schema: TEST
+    table_name: LT1
+    where_clause: 1=1
+    keys: ID
+ORACLE19:
+  ODS:
+    host: http://localhost:1080
+    path: /service_two
     schema: TEST
     table_name: LT1
     where_clause: 1=1
