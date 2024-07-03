@@ -3,7 +3,7 @@ Documentation    Methods for connection to Databases
 Library          DatabaseLibrary
 
 *** Variables ***
-${connections}      ./config/connections/${ENV}.cfg
+${connections}      .${/}config${/}connections${/}${ENV}.cfg
 
 *** Keywords ***
 Connect to db

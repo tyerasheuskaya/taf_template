@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation    End to End test case started from file till Presentation layer
-Resource         ../../resources/db/connectors/connectors.resource
+Resource         ../../resources/db/connectors.resource
 Resource         ../../resources/db/db.resource
 Resource         ../../resources/api/api.resource
 Resource         ../../resources/os/files.resource
@@ -26,7 +26,7 @@ Load data to Source
             ${schema_name}  Set Variable  ${source}[${source_type}][schema]
             FOR    ${table_name}    IN   @{source}[${source_type}][table_name]
                 # Read data from csv file
-                ${data}=    Get data from CSV  ./test_data/e2e/uffs/${source_type}/${table_name}.csv
+                ${data}=    Get data from CSV  .${/}test_data${/}e2e${/}${source_name}${/}${source_type}${/}${table_name}.csv
                     # Collect headers and join them in one row 
                     ${headers}  Catenate    SEPARATOR=,    @{data.columns}
                     ${counts}   Get Length  ${data}
