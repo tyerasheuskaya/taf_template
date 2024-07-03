@@ -6,8 +6,6 @@ Resource         ../../resources/api/api.resource
 Resource         ../../resources/os/files.resource
 Variables        ../../config/e2e/${ENV}.yaml
 
-*** Variables ***
-${MOCK_SERVER}  http://localhost:1080/
 
 *** Keywords ***
 Load data to Source
@@ -49,7 +47,7 @@ Load Data to Layer
     FOR    ${layer}    IN    @{layers}
         ${source}   Create Dictionary   &{${source_name}.${layer}}
         FOR    ${path}    IN    @{source.path}
-            Run Keyword If  ${mock}  Mock Request  ${source.host}  ${path}  ELSE  API GET Request  ${source.host}  ${path}
+            Run Keyword If  ${mock}  Mock Request   ${path}  ELSE  API GET Request  ${source.host}  ${path}
         END
         FOR    ${query}    IN    @{source.query}
             ${path}  Set Variable  .${/}resources${/}db${/}queries${/}e2e${/}${query}.sql

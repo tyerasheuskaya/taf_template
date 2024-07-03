@@ -25,8 +25,18 @@ API PUT Request
 
 Mock Request
     [Documentation]  Mock Requests
-    [Arguments]  ${url}  ${api}
-    Create Mock Session     ${url}
+    [Arguments]     ${path}
+    ${request}      Create Dictionary   path=${path}
+    ${response}     Create Dictionary   body={"key": "response for ${path}"}
+    Create Mock Expectation    request=&{request}   response=&{response}
+    ${response}     GET  ${MOCK_SERVER}${path}
+
+Init Mock Server
+    Create Mock Session     ${MOCK_SERVER}
     Reset All Requests
-    Create Default Mock Expectation  GET   ${api}   response_body={"key": "response for ${api}"} 
-    ${response}     GET  ${url}${api}
+    Log To Console    Mock Server started
+
+Shutdown Mock Server
+    Reset All Requests
+    Log To Console    Mock Server stopped
+

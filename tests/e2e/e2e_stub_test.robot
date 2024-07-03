@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation        Test case 1
+Documentation        This is initial test suite
 Resource             ../../resources/e2e/end_to_end.resource
 Resource             ../../resources/db/connectors.resource
 
@@ -10,14 +10,15 @@ ${source_name}  UFFS
 ${target_db}    ORACLE19
 ${mock}         True
 
-*** Tasks ***
-Test Case 1
+
+*** Test Cases ***
+Verify mocking data
     [Documentation]   Mocking Example
     [Tags]  local_test
     Mock Requests Example
 
 
-Test 2
+Verify loading data to layers
     [Documentation]  Load to layer_params
     [Tags]  local_test
     Connect to db    ${target_db}
@@ -25,7 +26,7 @@ Test 2
     Disconnect from db    ${target_db}
 
 
-Test 3
+Verify loading data to source
     [Documentation]  Load to source 
     [Tags]  local_test
     Connect to db    ${source_name}
