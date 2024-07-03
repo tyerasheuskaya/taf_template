@@ -2,6 +2,7 @@
 Documentation    Base queries for DBs
 Library          DatabaseLibrary
 Library          String
+Library          OperatingSystem
 
 *** Keywords ***
 Create table test_cases_result
@@ -22,6 +23,7 @@ Insert data
     ${query}    Set Variable    INSERT INTO ${schema}.${table} (${columns}) VALUES(${values})
     Log To Console   ${query}
     Execute Sql String    ${query}    alias=${alias}
+    Log To Console    Inserted successfully!
 
 Get Columns
     [Arguments]    ${alias}    ${schema}    ${table}
@@ -82,3 +84,11 @@ Delete data from table
 Delete data from tables
     [Arguments]     ${alias}
     Execute Sql Script    ${EXECDIR}${/}resources${/}db${/}queries${/}e2e${/}clear_lt1_lt2.sql  alias=${alias}
+    Log to Console  Deleted successfully!
+
+Run script from file
+    [Documentation]  Run prepared query from file
+    [Arguments]  ${path}  ${alias}
+    ${query}  Get File    ${path}
+    ${result}=  Query  ${query}  alias=${alias}
+    Log to Console  Query from ${path} executed successfully!

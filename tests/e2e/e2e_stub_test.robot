@@ -4,42 +4,30 @@ Resource             ../../resources/e2e/end_to_end.resource
 Resource             ../../resources/db/connectors.resource
 
 
+*** Variables ***
+${source_name}  UFFS
+@{layers}       MDM  ODS
+${target_db}    ORACLE19
+${mock}         True
 
 *** Tasks ***
-# Test Case 1
-#     [Documentation]   End to End Test. Process Source till DB Presentation level".  
-#     # Available parameters for source insert: 'source is db',  'source is files'
-#     [Tags]    LOCAL_TEST
-#     Insert data into Source     'source is db'    ${data_for_load}
-#     Used URL                     https://example.com/
-#     Load data to Layer           ${TEST_LAYER}
-
-
-Test Case 2
+Test Case 1
     [Documentation]   Mocking Example
+    [Tags]  local_test
     Mock Requests Example
 
 
-Test case 3
-    [Documentation]  Check that connections work
-    ${source_name}  Set Variable    UFFS
-    ${layer_name}   Set Variable    MDM
-    Connect to db    ${source_name}
-    Load Data to Layer    ${source_name}    ${layer_name}
-    Get data    ${source_name}    ${layer_name}
-    Disconnect from db  ${source_name}
-    ${source_name}  Set Variable    ORACLE19
-    ${layer_name}   Set Variable    ODS
-    Connect to db    ${source_name}
-    Load Data to Layer    ${source_name}    ${layer_name}
-    Get data    ${source_name}    ${layer_name}
-    Disconnect from db    ${source_name}
+Test 2
+    [Documentation]  Load to layer_params
+    [Tags]  local_test
+    Connect to db    ${target_db}
+    Load Data to Layer  ${source_name}  ${layers}  ${target_db}  ${mock}  
+    Disconnect from db    ${target_db}
 
 
-Test 4
+Test 3
     [Documentation]  Load to source 
-    [Tags]  WIP
-    ${source_name}  Set Variable    UFFS
+    [Tags]  local_test
     Connect to db    ${source_name}
     Load data to Source     ${source_name}
     Delete data from tables     ${source_name}

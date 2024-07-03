@@ -1,0 +1,3 @@
+SELECT  *
+FROM TEST.LT1
+where ID = 3
