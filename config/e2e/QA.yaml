@@ -23,9 +23,9 @@ UFFS:
   ODS:
     host: http://localhost:1080/
     path: 
-    - /mdm_api_1
-    - /mdm_api_2
-    - /mdm_api_3
+    - /ods_api_1
+    - /ods_api_2
+    - /ods_api_3
     query: 
     - query_1
     - query_2
