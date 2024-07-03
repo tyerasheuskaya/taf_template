@@ -4,29 +4,23 @@ Resource         ../../resources/db/connectors.resource
 Resource         ../../resources/db/db.resource
 Resource         ../../resources/api/api.resource
 Resource         ../../resources/os/files.resource
-Library          MockServerLibrary
 Variables        ../../config/e2e/${ENV}.yaml
 
-*** Variables ***
-${MOCK_SERVER}  http://localhost:1080/
 
 *** Keywords ***
-Used URL
-    [Arguments]  ${value}
-    Set Global Variable  ${URL}  ${value}
-
 Load data to Source
     [Documentation]  Add data on source depend on source type lag: db, csv
     [Arguments]     ${source_name}
     ${source}   Create Dictionary   &{${source_name}}
-    @{source_types}     Set Variable  ${source}[type]
+    @{source_types}     Set Variable  ${source.type}
     # Define a type of the source
     FOR    ${source_type}    IN    @{source_types}
+        ${data_to_insert_path}  Set Variable  .${/}test_data${/}e2e${/}${source_name}${/}${source_type}
         IF    '${source_type}' == 'db'
-            ${schema_name}  Set Variable  ${source}[${source_type}][schema]
-            FOR    ${table_name}    IN   @{source}[${source_type}][table_name]
+            ${schema_name}  Set Variable  ${source.${source_type}.schema}
+            FOR    ${table_name}    IN   @{source.${source_type}.table_name}
                 # Read data from csv file
-                ${data}=    Get data from CSV  .${/}test_data${/}e2e${/}${source_name}${/}${source_type}${/}${table_name}.csv
+                ${data}   Get data from CSV   ${data_to_insert_path}${/}${table_name}.csv
                     # Collect headers and join them in one row 
                     ${headers}  Catenate    SEPARATOR=,    @{data.columns}
                     ${counts}   Get Length  ${data}
@@ -38,9 +32,9 @@ Load data to Source
                     END                    
             END
         ELSE IF  '${source_type}' == 'csv'
-            ${csv_sources}  Set variable  ${source}[${source_type}]
+            ${csv_sources}  Set variable  ${source.${source_type}}
             FOR    ${key}    ${value}    IN    &{csv_sources}
-                Add data to file    ${value}[source_file_path]   ${value}[data_to_insert_path]
+                Add data to file    ${value.source_file_path}    ${data_to_insert_path}${/}${key}.csv
             END
         ELSE
             Log To Console    Source ${source_type} is not defined
@@ -48,12 +42,18 @@ Load data to Source
     END
 
 Load Data to Layer
-    [Documentation]  Loade data to layer
-    [Arguments]    ${source_name}   ${layer_name}
-    ${layer_params}     Create Dictionary    &{${source_name}}[${layer_name}]
-    ${api_resnonse}     API GET Request      ${layer_params}[host]  ${layer_params}[path]
-    ${result}   Get data from DB  ${source_name}   ${layer_params}[schema]  ${layer_params}[table_name]  ${layer_params}[where_clause]
-    Should Not Be Equal  ${result}  ${0}
+    [Documentation]  Load data to layer
+    [Arguments]    ${source_name}  ${layers}  ${alias}  ${mock}=False
+    FOR    ${layer}    IN    @{layers}
+        ${source}   Create Dictionary   &{${source_name}.${layer}}
+        FOR    ${path}    IN    @{source.path}
+            Run Keyword If  ${mock}  Mock Request   ${path}  ELSE  API GET Request  ${source.host}  ${path}
+        END
+        FOR    ${query}    IN    @{source.query}
+            ${path}  Set Variable  .${/}resources${/}db${/}queries${/}e2e${/}${query}.sql
+            Run script from file    ${path}    ${alias}
+        END
+    END
 
 Mock Requests Example
     Create Mock Session     ${MOCK_SERVER}

@@ -10,26 +10,23 @@ UFFS:
   csv:
     csv_test_source:
       source_file_path: ./test_data/e2e/uffs/csv/test_data.csv
-      data_to_insert_path: ./test_data/e2e/uffs/csv/insert_values.csv
   MDM:
-    host: http://localhost:1080
-    path: /service_one
-    schema: dbo
-    table_name: local_table_1
-    where_clause: 1=1
-    keys: ID
+    host: http://localhost:1080/
+    path: 
+    - /mdm_api_1
+    - /mdm_api_2
+    - /mdm_api_3
+    query: 
+    - query_1
+    - query_2
+    - query_3
   ODS:
-    host: http://localhost:1080
-    path: /service_two
-    schema: TEST
-    table_name: LT1
-    where_clause: 1=1
-    keys: ID
-ORACLE19:
-  ODS:
-    host: http://localhost:1080
-    path: /service_two
-    schema: TEST
-    table_name: LT1
-    where_clause: 1=1
-    keys: ID
+    host: http://localhost:1080/
+    path: 
+    - /ods_api_1
+    - /ods_api_2
+    - /ods_api_3
+    query: 
+    - query_1
+    - query_2
+    - query_3

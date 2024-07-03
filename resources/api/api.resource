@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation    Base methods for APIs
 Library          RequestsLibrary
+Library          MockServerLibrary
 
 *** Keywords ***
 API GET Request
@@ -21,4 +22,21 @@ API PUT Request
     [Arguments]    ${url}    ${data}    ${endpoint}    ${headers}
     Create Session  api   ${url}  headers=${headers}
     ${response}=  PUT On Session  api  ${endpoint}  data=${data}
-    Log  ${response.content}
+
+Mock Request
+    [Documentation]  Mock Requests
+    [Arguments]     ${path}
+    ${request}      Create Dictionary   path=${path}
+    ${response}     Create Dictionary   body={"key": "response for ${path}"}
+    Create Mock Expectation    request=&{request}   response=&{response}
+    ${response}     GET  ${MOCK_SERVER}${path}
+
+Init Mock Server
+    Create Mock Session     ${MOCK_SERVER}
+    Reset All Requests
+    Log To Console    Mock Server started
+
+Shutdown Mock Server
+    Reset All Requests
+    Log To Console    Mock Server stopped
+
