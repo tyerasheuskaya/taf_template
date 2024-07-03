@@ -18,6 +18,7 @@ dependencies:
     - robotframework-requests==0.9.7              # https://www.piwheels.org/project/robotframework-requests/
     - robotframework-mockserver==0.0.7            # https://pypi.org/project/robotframework-mockserver/
     - pyodbc                                      # https://pypi.org/project/pyodbc/
+    - robotframework-reportportal                 # https://pypi.org/project/robotframework-reportportal/
 
 
 

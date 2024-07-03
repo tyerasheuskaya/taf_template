@@ -51,7 +51,7 @@ Load Data to Layer
     [Documentation]  Loade data to layer
     [Arguments]    ${source_name}   ${layer_name}
     ${layer_params}     Create Dictionary    &{${source_name}}[${layer_name}]
-    ${api_resnonse}     API GET Request  ${URL}  ${layer_params}[api]
+    ${api_resnonse}     API GET Request      ${layer_params}[host]  ${layer_params}[path]
     ${result}   Get data from DB  ${source_name}   ${layer_params}[schema]  ${layer_params}[table_name]  ${layer_params}[where_clause]
     Should Not Be Equal  ${result}  ${0}
 
