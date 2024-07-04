@@ -1,0 +1,15 @@
+rpaframework==28.6.0                        # https://rpaframework.org/releasenotes.html
+oracledb==2.2.1                             # https://pypi.org/project/oracledb/
+robotframework-databaselibrary==1.4.4       # https://pypi.org/project/robotframework-databaselibrary/
+robotframework-seleniumlibrary==6.5.0       # https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html
+allure-robotframework==2.13.5               # https://pypi.org/project/allure-robotframework/
+robotframework-requests==0.9.7              # https://www.piwheels.org/project/robotframework-requests/
+robotframework-mockserver==0.0.7            # https://pypi.org/project/robotframework-mockserver/
+pyodbc                                      # https://pypi.org/project/pyodbc/
+robotframework-reportportal                 # https://pypi.org/project/robotframework-reportportal/
+robotframework-pabot                        # https://pypi.org/project/robotframework-pabot/
+
+
+
+
+
