@@ -68,3 +68,17 @@ Get data
     [Arguments]    ${source_name}   ${layer_name}
     ${layer_params}  Create Dictionary    &{${source_name}}[${layer_name}]
     ${result}   Get Row Counts   ${source_name}  ${layer_params}[schema]  ${layer_params}[table_name]
+
+Init Mock Server and Connect to Databases
+    Init Mock Server
+    @{databases}    Create List     ORACLE19    UFFS
+    FOR     ${database}     IN      @{databases}
+        Connect to db    ${database}
+    END
+
+Shutdown Mock Server and Disconnect from Databases
+    Shutdown Mock Server
+    @{databases}    Create List     ORACLE19    UFFS
+    FOR     ${database}     IN      @{databases}
+        Disconnect from db    ${database}
+    END

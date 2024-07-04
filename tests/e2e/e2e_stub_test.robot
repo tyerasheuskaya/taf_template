@@ -21,15 +21,11 @@ Verify mocking data
 Verify loading data to layers
     [Documentation]  Load to layer_params
     [Tags]  local_test
-    Connect to db    ${target_db}
-    Load Data to Layer  ${source_name}  ${layers}  ${target_db}  ${mock}  
-    Disconnect from db    ${target_db}
+    Load Data to Layer  ${source_name}  ${layers}  ${target_db}  ${mock}
 
 
 Verify loading data to source
     [Documentation]  Load to source 
     [Tags]  local_test
-    Connect to db    ${source_name}
     Load data to Source     ${source_name}
     Delete data from tables     ${source_name}
-    Disconnect from db      ${source_name}
