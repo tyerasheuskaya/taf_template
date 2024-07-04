@@ -21,3 +21,5 @@ log.html
 report.html
 interactive_console_output.xml
 *.log
+.pabotsuitenames
+robot_std*

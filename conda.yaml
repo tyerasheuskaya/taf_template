@@ -19,6 +19,7 @@ dependencies:
     - robotframework-mockserver==0.0.7            # https://pypi.org/project/robotframework-mockserver/
     - pyodbc                                      # https://pypi.org/project/pyodbc/
     - robotframework-reportportal                 # https://pypi.org/project/robotframework-reportportal/
+    - robotframework-pabot                        # https://pypi.org/project/robotframework-pabot/
 
 
 
