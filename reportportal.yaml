@@ -1,6 +1,6 @@
-rp_api_key: WB-KEY_8eD9gmrCQ22xCtn2ed2Zso_SjS29vJs5ZYnpXfgsRcLfIEb8IMhPfuEmm4LHdJg1
+rp_api_key: WB-KEY_M8SONFp8SMiQZjsRtwTJJvu-hAvG4-y34OgTKFZJ2Gmq94gpZZ9kufDnfZapSQtE
 rp_endpoint: http://localhost:8080
 rp_launch: "Robot Framework"
-rp_project: superadmin_personal
+rp_project: default_personal
 rp_launch_attributes: "tag key1:value1 key2:value2"
 rp_launch_doc: "My test launch"

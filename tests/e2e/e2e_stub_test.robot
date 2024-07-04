@@ -25,7 +25,7 @@ Verify loading data to layers
 
 
 Verify loading data to source
-    [Documentation]  Load to source 
+    [Documentation]  Load to source
     [Tags]  local_test
     Load data to Source     ${source_name}
     Delete data from tables     ${source_name}
