@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Base queries for DBs
+Documentation    Base methods for DBs
 Library          DatabaseLibrary
 Library          String
 Library          OperatingSystem
@@ -7,14 +7,14 @@ Library          OperatingSystem
 *** Keywords ***
 Create table test_cases_result
     [Arguments]    ${alias}
-    ${query}    Set Variable    CREATE TABLE test_cases_result
-    ...    (id NUMBER(6) NOT NULL, 
-    ...    table_name VARCHAR2(25) NOT NULL, 
-    ...    test_case_name VARCHAR2(25) NOT NULL, 
-    ...    metric_value VARCHAR2(25) NOT NULL, 
-    ...    start_date Date NOT NULL, 
-    ...    end_date Date NOT NULL  
-    ...    CONSTRAINT id_pk PRIMARY KEY (id))
+    ${query}    Set Variable    CREATE TABLE TEST_CASES_RESULT
+    ...    (ID NUMBER(6) NOT NULL, 
+    ...    TABLE_NAME VARCHAR2(25) NOT NULL, 
+    ...    TEST_CASE_NAME VARCHAR2(25) NOT NULL, 
+    ...    METRIC_VALUE VARCHAR2(25) NOT NULL, 
+    ...    START_DATE DATE NOT NULL, 
+    ...    END_DATE DATE NOT NULL  
+    ...    CONSTRAINT ID_PK PRIMARY KEY (ID))
     Log To Console    ${query}
     Query    ${query}    ${alias}
 
@@ -27,8 +27,15 @@ Insert data
 
 Get Columns
     [Arguments]    ${alias}    ${schema}    ${table}
-    ${query}    Set Variable   select lower(column_name) from all_tab_columns WHERE lower(owner)=lower('${schema}') and lower(table_name) = lower('${table}')
-    Log To Console  ${query}
+    ${query}    Set Variable   SELECT UPPER(COLUMN_NAME) FROM ALL_TAB_COLUMNS WHERE UPPER(OWNER)=UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}')
+    Log  ${query}
+    @{result}   Query    ${query}    alias=${alias}
+    RETURN  ${result} 
+
+Get Metadata
+    [Arguments]    ${alias}    ${schema}    ${table}
+    ${query}    Set Variable   SELECT UPPER(COLUMN_NAME), UPPER(DATA_TYPE) FROM ALL_TAB_COLUMNS WHERE UPPER(OWNER)=UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}') ORDER BY UPPER(OWNER) ASC, UPPER(TABLE_NAME) ASC, UPPER(COLUMN_NAME)
+    Log  ${query}
     @{result}   Query    ${query}    alias=${alias}
     RETURN  ${result} 
 
@@ -41,7 +48,7 @@ Concat columns into one string
 Get Row Counts
     [Arguments]    ${alias}    ${schema}    ${table}
     ${query}    Set Variable    SELECT COUNT(*) FROM ${schema}.${table}
-    Log To Console    ${query}
+    Log  ${query}
     @{result}    Query    ${query}    alias=${alias}
     RETURN  ${result}[0][0]
 
@@ -50,7 +57,7 @@ Get Hash
     ${columns}  Get Columns    ${alias}    ${schema}    ${table}
     ${columns_expr}    Concat columns into one string    ${columns}
     ${columns_expr}    Replace String Using Regexp    ${columns_expr}    ,    ||
-    ${query}   Set Variable    SELECT ora_hash(${columns_expr}) AS row_hash FROM ${schema}.${table} order by ${key}
+    ${query}   Set Variable    SELECT ora_hash(${columns_expr}) AS row_hash FROM ${schema}.${table} ORDER BY ${key}
     Log To Console  ${query}
     @{result}    Query    ${query}    alias=${alias}
     Log To Console  ${result}
@@ -58,8 +65,7 @@ Get Hash
 
 Get objects statistic
     [Arguments]    ${alias}    ${schema}    ${table}
-    ${query}    Set Variable  SELECT table_name, num_rows FROM user_tables
-    ...     WHERE lower(schema_name) = lower('${schema}') and lower(table_name) = lower('${table}');
+    ${query}    Set Variable  SELECT TABLE_NAME, NUM_ROWS FROM USER_TABLES WHERE UPPER(SCHEMA_NAME) = UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}');
     Log To Console  ${query}
     @{result}   Query    ${query}    alias=${alias}
     RETURN  ${result} 
@@ -67,7 +73,7 @@ Get objects statistic
 Get data from DB
     [Arguments]    ${alias}    ${schema}    ${table}    ${where_clause}
     ${where_clause}     Run Keyword If    '${where_clause}' == ''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
-    ${query}    Set Variable    SELECT count(*) FROM ${schema}.${table} WHERE ${where_clause};
+    ${query}    Set Variable    SELECT COUNT(*) FROM ${schema}.${table} WHERE ${where_clause};
     Log To Console    ${query}
     @{result}   Query    ${query}    alias=${alias}
     Log To Console    ${result}[0][0]
@@ -76,11 +82,10 @@ Get data from DB
 Delete data from table
     [Arguments]    ${alias}    ${schema}    ${table}    ${where_clause}
     ${where_clause}     Run Keyword If    '${where_clause}' == ''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
-    ${query}    Set Variable    Delete FROM ${schema}.${table} WHERE ${where_clause};
-    Log To Console   ${query}
+    ${query}    Set Variable    DELETE FROM ${schema}.${table} WHERE ${where_clause};
+    Log  ${query}
     Execute Sql String    ${query}    alias=${alias}
     
-
 Delete data from tables
     [Arguments]     ${alias}
     Execute Sql Script    ${EXECDIR}${/}resources${/}db${/}queries${/}e2e${/}clear_lt1_lt2.sql  alias=${alias}
