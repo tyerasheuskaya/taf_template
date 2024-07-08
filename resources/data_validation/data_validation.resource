@@ -19,4 +19,4 @@ Verify counts for ${schema}.${table}. Should be >0
     [Arguments]  ${target_db}   ${schema}  ${table}
     Log To Console  Checking count for schema ${schema} and table ${table}
     ${count}  Get Row Counts  alias=${target_db}  schema=${schema}  table=${table}
-    Should Be True  ${count} != 70  msg=Count for schema ${schema} and table ${table} is not more than 0
+    Should Be True  ${count} >0  msg=Count for schema ${schema} and table ${table} is not more than 0
