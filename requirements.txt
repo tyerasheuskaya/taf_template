@@ -8,8 +8,3 @@ robotframework-mockserver==0.0.7            # https://pypi.org/project/robotfram
 pyodbc                                      # https://pypi.org/project/pyodbc/
 robotframework-reportportal                 # https://pypi.org/project/robotframework-reportportal/
 robotframework-pabot                        # https://pypi.org/project/robotframework-pabot/
-
-
-
-
-

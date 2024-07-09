@@ -32,12 +32,21 @@ Get Columns
     @{result}   Query    ${query}    alias=${alias}
     RETURN  ${result} 
 
-Get Metadata
+Get Metadata by table
     [Arguments]    ${alias}    ${schema}    ${table}
-    ${query}    Set Variable   SELECT UPPER(COLUMN_NAME), UPPER(DATA_TYPE) FROM ALL_TAB_COLUMNS WHERE UPPER(OWNER)=UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}') ORDER BY UPPER(OWNER) ASC, UPPER(TABLE_NAME) ASC, UPPER(COLUMN_NAME)
+    ${query}    Set Variable   SELECT UPPER(COLUMN_NAME) AS COLUMN_NAME, UPPER(DATA_TYPE) AS DATA_TYPE FROM ALL_TAB_COLUMNS WHERE UPPER(OWNER)=UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}') ORDER BY UPPER(OWNER) ASC, UPPER(TABLE_NAME) ASC, UPPER(COLUMN_NAME)
     Log  ${query}
     @{result}   Query    ${query}    alias=${alias}
     RETURN  ${result} 
+
+Get list of presented tables
+    [Arguments]    ${alias}    ${schema}    ${tables}
+    ${tables_expr}  Catenate  SEPARATOR=','    @{tables}  
+    ${query}    Set Variable   SELECT distinct UPPER(TABLE_NAME) FROM ALL_TAB_COLUMNS WHERE UPPER(OWNER)=UPPER('${schema}') AND UPPER(TABLE_NAME) in ('${tables_expr}') ORDER by UPPER(TABLE_NAME) ASC
+    Log  ${query}
+    @{result}   Query    ${query}    alias=${alias}
+    ${tables_list}  Evaluate   [t[0] for t in ${result}]
+    RETURN  ${tables_list} 
 
 Concat columns into one string
     [Arguments]    ${columns}
