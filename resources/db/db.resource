@@ -15,13 +15,13 @@ Create table test_cases_result
     ...    START_DATE DATE NOT NULL, 
     ...    END_DATE DATE NOT NULL  
     ...    CONSTRAINT ID_PK PRIMARY KEY (ID))
-    Log To Console    ${query}
+    Log  ${query}
     Query    ${query}    ${alias}
 
 Insert data
     [Arguments]     ${alias}    ${schema}   ${table}    ${columns}  ${values}
     ${query}    Set Variable    INSERT INTO ${schema}.${table} (${columns}) VALUES(${values})
-    Log To Console   ${query}
+    Log  ${query}
     Execute Sql String    ${query}    alias=${alias}
     Log To Console    Inserted successfully!
 
@@ -67,15 +67,15 @@ Get Hash
     ${columns_expr}    Concat columns into one string    ${columns}
     ${columns_expr}    Replace String Using Regexp    ${columns_expr}    ,    ||
     ${query}   Set Variable    SELECT ora_hash(${columns_expr}) AS row_hash FROM ${schema}.${table} ORDER BY ${key}
-    Log To Console  ${query}
+    Log  ${query}
     @{result}    Query    ${query}    alias=${alias}
-    Log To Console  ${result}
+    Log  ${result}
     RETURN  ${result}
 
 Get objects statistic
     [Arguments]    ${alias}    ${schema}    ${table}
     ${query}    Set Variable  SELECT TABLE_NAME, NUM_ROWS FROM USER_TABLES WHERE UPPER(SCHEMA_NAME) = UPPER('${schema}') AND UPPER(TABLE_NAME) = UPPER('${table}');
-    Log To Console  ${query}
+    Log  ${query}
     @{result}   Query    ${query}    alias=${alias}
     RETURN  ${result} 
 
@@ -83,9 +83,9 @@ Get data from DB
     [Arguments]    ${alias}    ${schema}    ${table}    ${where_clause}
     ${where_clause}     Run Keyword If    '${where_clause}' == ''    Set Variable    1=1    ELSE    Set Variable    ${where_clause}
     ${query}    Set Variable    SELECT COUNT(*) FROM ${schema}.${table} WHERE ${where_clause};
-    Log To Console    ${query}
+    Log   ${query}
     @{result}   Query    ${query}    alias=${alias}
-    Log To Console    ${result}[0][0]
+    Log  ${result}[0][0]
     RETURN  ${result}[0][0]
 
 Delete data from table
