@@ -31,4 +31,4 @@ Verify counts for ${schema}.${table}. Should be >0
     [Arguments]  ${target_db}   ${schema}  ${table}
     Log To Console   Checking Counts for schema ${schema} and table ${table}
     ${count}  Get Row Counts  alias=${target_db}  schema=${schema}  table=${table}
-    Assert Greater Than  ${count}    ${11}
+    Assert Greater Than  ${count}    ${0}
