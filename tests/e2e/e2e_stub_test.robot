@@ -1,7 +1,6 @@
 *** Settings ***
-Documentation        This is initial test suite
+Documentation        This is initial test suite for ete
 Resource             ../../resources/e2e/end_to_end.resource
-Resource             ../../resources/db/connectors.resource
 
 
 *** Variables ***
