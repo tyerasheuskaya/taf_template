@@ -1,4 +1,4 @@
-rp_api_key: local-taf-api_P750Ni9RRguyXIBDlQ_1R_YOPLxwoNa7brlDHomIyfmjVmV-tiFnxa3tBiNJH-HC
+rp_api_key: WB-KEY_M8SONFp8SMiQZjsRtwTJJvu-hAvG4-y34OgTKFZJ2Gmq94gpZZ9kufDnfZapSQtE
 rp_endpoint: http://localhost:8080
 rp_launch: "Robot Framework"
 rp_project: default_personal

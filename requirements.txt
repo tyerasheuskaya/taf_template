@@ -9,3 +9,4 @@ pyodbc                                      # https://pypi.org/project/pyodbc/
 robotframework-reportportal                 # https://pypi.org/project/robotframework-reportportal/
 robotframework-pabot                        # https://pypi.org/project/robotframework-pabot/
 PyHamcrest                                  # https://pypi.org/project/PyHamcrest/
+pandas                                      # https://pypi.org/project/pandas/
