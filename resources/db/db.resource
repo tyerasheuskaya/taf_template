@@ -106,3 +106,4 @@ Run script from file
     ${query}  Get File    ${path}
     ${result}=  Query  ${query}  alias=${alias}
     Log to Console  Query from ${path} executed successfully!
+    RETURN  ${result}

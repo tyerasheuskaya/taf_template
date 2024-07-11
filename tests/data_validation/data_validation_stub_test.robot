@@ -36,6 +36,6 @@ Verify data existence
 Verify data with custom query
     [Documentation]  Run custom query and check the data is valid
     [Template]  Verify custom queries
-    FOR     ${CUSTOM_QUERY}     IN      @{CUSTOM_QUERIES}
-            ${target_db}    ${CUSTOM_QUERY.query}   ${CUSTOM_QUERY.expected_data}
+    FOR     ${query}     IN      @{CUSTOM_QUERIES}
+            ${target_db}    ${query}
     END

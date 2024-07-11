@@ -5,6 +5,7 @@ Resource         ../../resources/db/db.resource
 Resource         ../../resources/api/api.resource
 Resource         ../../resources/os/files.resource
 Variables        ../../config/e2e/${ENV}.yaml
+Library          ../../resources/utils/matchers.py
 
 
 *** Keywords ***
@@ -50,8 +51,11 @@ Load Data to Layer
             Run Keyword If  ${mock}  Mock Request   ${path}  ELSE  API GET Request  ${source.host}  ${path}
         END
         FOR    ${query}    IN    @{source.query}
-            ${path}  Set Variable  .${/}test_data${/}queries${/}e2e${/}${query}.sql
-            Run script from file    ${path}    ${alias}
+            ${path}  Set Variable    ${EXECDIR}${/}test_data${/}queries${/}e2e${/}${source_name}${/}${layer}${/}${query}.sql
+            @{result}       Run script from file    ${path}  ${alias}
+            ${path}  Set Variable    ${EXECDIR}${/}test_data${/}e2e${/}${source_name}${/}${layer}${/}TEST${/}${query}.csv
+            ${expected}     Read Csv File   ${path}
+            Compare Data    actual=@{result}     expected=${expected}
         END
     END
 

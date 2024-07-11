@@ -4,7 +4,5 @@ UFFS:
         - LT2
         - LT3
 CUSTOM_QUERIES:
-    - query: query_lt1.sql
-      expected_data: LT1.csv
-    - query: query_lt2.sql
-      expected_data: LT2.csv
+    - query_1
+    - query_2
