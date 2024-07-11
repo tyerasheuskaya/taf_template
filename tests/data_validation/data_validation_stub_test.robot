@@ -35,7 +35,7 @@ Verify data existence
 
 Verify data with custom query
     [Documentation]  Run custom query and check the data is valid
-    ${script}   Get File    ${EXECDIR}${/}test_data${/}queries${/}data_validation${/}query_lt1.sql
-    @{actual}   Query       ${script}     alias=${target_db}
-    ${expected}     Read Csv File    ${EXECDIR}${/}test_data${/}data_validation${/}uffs${/}TEST${/}LT1.csv
-    Compare Data    actual=@{actual}     expected=${expected}
+    [Template]  Verify custom queries
+    FOR     ${CUSTOM_QUERY}     IN      @{CUSTOM_QUERIES}
+            ${target_db}    ${CUSTOM_QUERY.query}   ${CUSTOM_QUERY.expected_data}
+    END

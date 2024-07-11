@@ -32,3 +32,12 @@ Verify counts for ${schema}.${table}. Should be >0
     Log To Console   Checking Counts for schema ${schema} and table ${table}
     ${count}  Get Row Counts  alias=${target_db}  schema=${schema}  table=${table}
     Assert Greater Than  ${count}    ${0}
+
+
+Verify custom queries
+    [Documentation]  Run custom query and check the data is valid
+    [Arguments]     ${target_db}    ${query}   ${data_csv}
+    ${script}   Get File    ${EXECDIR}${/}test_data${/}queries${/}data_validation${/}${query}
+    @{actual}   Query       ${script}     alias=${target_db}
+    ${expected}     Read Csv File    ${EXECDIR}${/}test_data${/}data_validation${/}uffs${/}TEST${/}${data_csv}
+    Compare Data    actual=@{actual}     expected=${expected}
