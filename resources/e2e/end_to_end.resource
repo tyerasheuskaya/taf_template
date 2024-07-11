@@ -50,7 +50,7 @@ Load Data to Layer
             Run Keyword If  ${mock}  Mock Request   ${path}  ELSE  API GET Request  ${source.host}  ${path}
         END
         FOR    ${query}    IN    @{source.query}
-            ${path}  Set Variable  .${/}resources${/}db${/}queries${/}e2e${/}${query}.sql
+            ${path}  Set Variable  .${/}test_data${/}queries${/}e2e${/}${query}.sql
             Run script from file    ${path}    ${alias}
         END
     END

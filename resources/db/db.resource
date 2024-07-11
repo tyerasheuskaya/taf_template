@@ -97,7 +97,7 @@ Delete data from table
     
 Delete data from tables
     [Arguments]     ${alias}
-    Execute Sql Script    ${EXECDIR}${/}resources${/}db${/}queries${/}e2e${/}clear_lt1_lt2.sql  alias=${alias}
+    Execute Sql Script    ${EXECDIR}${/}test_data${/}queries${/}e2e${/}clear_lt1_lt2.sql  alias=${alias}
     Log to Console  Deleted successfully!
 
 Run script from file
