@@ -21,6 +21,8 @@ def compare_data(actual, expected):
     actual = [[column.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] if isinstance(column, datetime)
                else column for column in row] for row in actual]
     expected = expected.values.tolist()
+    actual.sort()
+    expected.sort()
     differences = []
     for row1, row2 in zip(actual, expected):
         if row1 != row2:

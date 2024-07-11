@@ -1,3 +1,3 @@
-SELECT  count(*) cnt
+SELECT  *
 FROM TEST.LT1
 where ID <=12

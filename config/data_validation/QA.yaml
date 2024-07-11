@@ -3,3 +3,6 @@ UFFS:
         - LT1
         - LT2
         - LT3
+CUSTOM_QUERIES:
+    - query_1
+    - query_2
