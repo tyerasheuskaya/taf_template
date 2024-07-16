@@ -21,12 +21,12 @@ Load data to Source
             ${schema_name}  Set Variable  ${source.${source_type}.schema}
             FOR    ${table_name}    IN   @{source.${source_type}.table_name}
                 # Read data from csv file
-                ${data}   Get data from CSV   ${data_to_insert_path}${/}${table_name}.csv
+                ${data}   Read Csv File   ${data_to_insert_path}${/}${table_name}.csv
                     # Collect headers and join them in one row 
-                    ${headers}  Catenate    SEPARATOR=,    @{data.columns}
+                    ${headers}  Catenate    SEPARATOR=,    @{data[0]}
                     ${counts}   Get Length  ${data}
                     # Take each row and generate inserts
-                    FOR  ${i}  IN RANGE  0  ${counts}
+                    FOR  ${i}  IN RANGE  1  ${counts}
                         ${values}   Catenate  SEPARATOR=','    @{data}[${i}]
                         # Log To Console   '${values}'
                         Insert data  ${source_name}  ${schema_name}  ${table_name}  ${headers}  '${values}'

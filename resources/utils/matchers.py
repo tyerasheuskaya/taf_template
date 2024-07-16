@@ -14,13 +14,14 @@ def assert_greater_than(actual, expected):
 
 
 def read_csv_file(path):
-    return pandas.read_csv(path)
+    df = pandas.read_csv(path)
+    return [df.columns.values.tolist()] + df.values.tolist()
 
 
 def compare_data(actual, expected):
     actual = [[column.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] if isinstance(column, datetime)
                else column for column in row] for row in actual]
-    expected = expected.values.tolist()
+    expected = expected[1:]
     actual.sort()
     expected.sort()
     differences = []
